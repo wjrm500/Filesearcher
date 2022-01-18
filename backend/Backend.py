@@ -1,13 +1,14 @@
 from glob import glob
 import os
-from backend.Directory import Directory
-from backend.file_types.FileFactory import FileFactory
+from Directory import Directory
+from file_types.FileFactory import FileFactory
 
 class Backend:
     def __init__(self) -> None:
-        Directory: self._directory = None
-        str: self._file_type = None
-        str: self._search_string = None
+        self._directory: Directory = None
+        self._file_type: str = None
+        self._search_string: str = None
+        self._recursive: bool = False
     
     @property
     def directory(self):
@@ -33,11 +34,26 @@ class Backend:
     def search_string(self, search_string: str):
         self._search_string = search_string
     
+    @property
+    def recursive(self):
+        return self._recursive
+    
+    @recursive.setter
+    def recursive(self, recursive: bool):
+        self._recursive = recursive
+    
     def load_file(self, filename):
         return FileFactory.create(filename)
     
     def load_files(self):
-        files = [y for x in os.walk(self.directory) for y in glob(os.path.join(x[0], f'*.{self.file_type}'))]
+        if self.recursive:
+            files = [y for x in os.walk(self.directory) for y in glob(os.path.join(x[0], f'*.{self.file_type}'))]
+        else:
+            files = [
+                file for f in os.listdir(self.directory)
+                if os.path.isfile((file := os.path.join(self.directory, f)))
+                and os.path.splitext(f)[1][1:] == self.file_type
+                ]
         return map(self.load_file, files)
     
     def search_files(self):
