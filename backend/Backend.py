@@ -1,7 +1,10 @@
 from glob import glob
 import os
+from typing import List
+
 from Directory import Directory
 from file_types.FileFactory import FileFactory
+from SearchOccurrence import SearchOccurrence
 
 class Backend:
     def __init__(self) -> None:
@@ -56,8 +59,7 @@ class Backend:
                 ]
         return map(self.load_file, files)
     
-    def search_files(self):
-        # missing_attrs = [attr for attr in [self.directory, self.file_type, self.search_string] if attr is None]
+    def search_files(self) -> List[SearchOccurrence]:
         if self.directory is None:
             raise Exception('Missing directory attribute on Backend object')
         if self.file_type is None:
@@ -65,8 +67,8 @@ class Backend:
         if self.search_string is None:
             raise Exception('Missing search_string attribute on Backend object')
         file_objects = self.load_files()
-        total_occurrences = []
+        all_occurrences = []
         for file_object in file_objects:
             occurrences = file_object.search(self.search_string)
-            total_occurrences.extend(occurrences)
-        return total_occurrences
+            all_occurrences.extend(occurrences)
+        return all_occurrences
