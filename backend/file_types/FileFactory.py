@@ -1,4 +1,5 @@
 import os
+from file_types.CsvFile import CsvFile
 from file_types.ExcelSpreadsheet import ExcelSpreadsheet
 from file_types.PowerPointPresentation import PowerPointPresentation
 from file_types.TextFile import TextFile
@@ -8,7 +9,9 @@ class FileFactory:
     @staticmethod
     def create(filename):
         extension = os.path.splitext(filename)[1][1:]
-        if extension == ExcelSpreadsheet.extension:
+        if extension == CsvFile.extension:
+            return CsvFile(filename)
+        elif extension == ExcelSpreadsheet.extension:
             return ExcelSpreadsheet(filename)
         elif extension == PowerPointPresentation.extension:
             return PowerPointPresentation(filename)

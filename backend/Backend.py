@@ -60,7 +60,7 @@ class Backend:
                 ]
         return map(self.load_file, files)
     
-    def search_files(self) -> List[SearchOccurrence]:
+    def search_files(self, chars_either_side: int = 25, ignore_case: bool = False) -> List[SearchOccurrence]:
         if self.directory is None:
             raise Exception('Missing directory attribute on Backend object')
         if self.file_type is None:
@@ -70,6 +70,6 @@ class Backend:
         file_objects = self.load_files()
         all_occurrences = []
         for file_object in file_objects:
-            occurrences = file_object.search(self.search_string)
+            occurrences = file_object.search(self.search_string, chars_either_side, ignore_case)
             all_occurrences.extend(occurrences)
         return all_occurrences
