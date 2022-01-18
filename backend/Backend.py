@@ -54,7 +54,8 @@ class Backend:
         else:
             files = [
                 file for f in os.listdir(self.directory)
-                if os.path.isfile((file := os.path.join(self.directory, f)))
+                if not f.startswith('~$')
+                and os.path.isfile((file := os.path.join(self.directory, f)))
                 and os.path.splitext(f)[1][1:] == self.file_type
                 ]
         return map(self.load_file, files)
