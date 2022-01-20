@@ -9,9 +9,8 @@ from SearchOccurrence import SearchOccurrence
 class Backend:
     def __init__(self) -> None:
         self._directory: Directory = None
-        self._file_type: str = None
+        self._file_types: List[str] = []
         self._search_string: str = None
-        self._recursive: bool = False
     
     @property
     def directory(self):
@@ -22,12 +21,12 @@ class Backend:
         self._directory = directory
     
     @property
-    def file_type(self):
-        return self._file_type
+    def file_types(self):
+        return self._file_types
     
-    @file_type.setter
-    def file_type(self, file_type: str):
-        self._file_type = file_type
+    @file_types.setter
+    def file_types(self, file_types: List[str]):
+        self._file_types = file_types
     
     @property
     def search_string(self):
@@ -37,37 +36,34 @@ class Backend:
     def search_string(self, search_string: str):
         self._search_string = search_string
     
-    @property
-    def recursive(self):
-        return self._recursive
-    
-    @recursive.setter
-    def recursive(self, recursive: bool):
-        self._recursive = recursive
-    
     def load_file(self, filename):
         return FileFactory.create(filename)
     
-    def load_files(self):
-        if self.recursive:
-            files = [y for x in os.walk(self.directory) for y in glob(os.path.join(x[0], f'*.{self.file_type}'))]
+    def load_files(self, recursive: bool = False):
+        if recursive:
+            files = []
+            for x in os.walk(self.directory):
+                for file_type in self.file_types:
+                    new_files = glob(os.path.join(x[0], f'*.{file_type}'))
+                    new_files = [file for file in new_files if not '\\~$' in file]
+                    files.extend(new_files)
         else:
             files = [
                 file for f in os.listdir(self.directory)
                 if not f.startswith('~$')
                 and os.path.isfile((file := os.path.join(self.directory, f)))
-                and os.path.splitext(f)[1][1:] == self.file_type
+                and os.path.splitext(f)[1][1:] in self.file_types
                 ]
         return map(self.load_file, files)
     
-    def search_files(self, chars_either_side: int = 25, ignore_case: bool = False) -> List[SearchOccurrence]:
+    def search_files(self, recursive: bool = False, chars_either_side: int = 25, ignore_case: bool = False) -> List[SearchOccurrence]:
         if self.directory is None:
             raise Exception('Missing directory attribute on Backend object')
-        if self.file_type is None:
+        if self.file_types is None:
             raise Exception('Missing file_type attribute on Backend object')
         if self.search_string is None:
             raise Exception('Missing search_string attribute on Backend object')
-        file_objects = self.load_files()
+        file_objects = self.load_files(recursive)
         all_occurrences = []
         for file_object in file_objects:
             occurrences = file_object.search(self.search_string, chars_either_side, ignore_case)

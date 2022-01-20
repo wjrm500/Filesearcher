@@ -10,7 +10,7 @@ from file_types.WordDocument import WordDocument
 class FileFactory:
     @staticmethod
     def create(filename):
-        extension = os.path.splitext(filename)[1][1:]
+        extension = os.path.splitext(filename)[1][1:].lower()
         if extension == CsvFile.extension:
             return CsvFile(filename)
         elif extension == ExcelSpreadsheet.extension:
