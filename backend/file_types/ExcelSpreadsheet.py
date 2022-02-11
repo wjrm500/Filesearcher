@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 
-from file_types.File import File
+from backend.file_types.File import File
 
 class ExcelSpreadsheet(File):
     extension = 'xlsx'

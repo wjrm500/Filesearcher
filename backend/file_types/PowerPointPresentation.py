@@ -1,6 +1,6 @@
 from pptx import Presentation
 
-from file_types.File import File
+from backend.file_types.File import File
 
 class PowerPointPresentation(File):
     extension = 'pptx'

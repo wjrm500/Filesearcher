@@ -1,11 +1,11 @@
 import os
 
-from file_types.CsvFile import CsvFile
-from file_types.ExcelSpreadsheet import ExcelSpreadsheet
-from file_types.PdfFile import PdfFile
-from file_types.PowerPointPresentation import PowerPointPresentation
-from file_types.TextFile import TextFile
-from file_types.WordDocument import WordDocument
+from backend.file_types.CsvFile import CsvFile
+from backend.file_types.ExcelSpreadsheet import ExcelSpreadsheet
+from backend.file_types.PdfFile import PdfFile
+from backend.file_types.PowerPointPresentation import PowerPointPresentation
+from backend.file_types.TextFile import TextFile
+from backend.file_types.WordDocument import WordDocument
 
 class FileFactory:
     @staticmethod

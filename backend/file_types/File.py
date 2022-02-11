@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import re
 from typing import List
 
-from SearchOccurrence import SearchOccurrence
+from backend.SearchOccurrence import SearchOccurrence
 
 class File(ABC):
     def __init__(self, filename) -> None:

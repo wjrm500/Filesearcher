@@ -1,4 +1,4 @@
-from file_types.File import File
+from backend.file_types.File import File
 
 class TextFile(File):
     extension = 'txt'

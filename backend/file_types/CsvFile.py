@@ -1,6 +1,6 @@
 import csv
 
-from file_types.File import File
+from backend.file_types.File import File
 
 class CsvFile(File):
     extension = 'csv'

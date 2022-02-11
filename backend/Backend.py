@@ -2,9 +2,9 @@ from glob import glob
 import os
 from typing import List
 
-from Directory import Directory
-from file_types.FileFactory import FileFactory
-from SearchOccurrence import SearchOccurrence
+from backend.Directory import Directory
+from backend.file_types.FileFactory import FileFactory
+from backend.SearchOccurrence import SearchOccurrence
 
 class Backend:
     def __init__(self) -> None:

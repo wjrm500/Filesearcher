@@ -1,6 +1,6 @@
 from docx import Document
 
-from file_types.File import File
+from backend.file_types.File import File
 
 class WordDocument(File):
     extension = 'docx'
